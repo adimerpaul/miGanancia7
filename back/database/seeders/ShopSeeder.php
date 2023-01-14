@@ -16,7 +16,7 @@ class ShopSeeder extends Seeder
     public function run()
     {
         Shop::create([
-            'avatar' => 'images/logo.png',
+            'avatar' => 'logo.png',
             'type' => 'Loja',
             'name' => 'Loja 1',
             'address' => 'Rua 1',

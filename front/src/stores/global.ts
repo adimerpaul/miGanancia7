@@ -6,6 +6,8 @@ export const useGlobalStore = defineStore('counter', {
     user: {},
     isLogged: !!localStorage.getItem('tokenMiGan'),
     permissions: [],
+    url: import.meta.env.VITE_API_BACK,
+    shop: {},
     typeShops: [
       { label: 'Industria o manufactura', value: 'Industria o manufactura', icon: 'o_business' },
       { label: 'Servicios de trasporte', value: 'Servicios de trasporte', icon: 'o_local_shipping' },

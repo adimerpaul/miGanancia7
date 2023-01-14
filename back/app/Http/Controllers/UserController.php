@@ -14,7 +14,7 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ]);
-        $user = User::where('email', $validated['email'])->first();
+        $user = User::where('email', $validated['email'])->with('shop')->first();
         if($user){
             if(Hash::check($validated['password'], $user->password)){
                 $token = $user->createToken('token')->plainTextToken;
@@ -47,7 +47,17 @@ class UserController extends Controller
         $token = $user->createToken('token')->plainTextToken;
         return response()->json([
             'token' => $token,
-            'user' => $user->with('shop')->first()
+            'user' => User::where('id', $user->id)->with('shop')->first()
         ]);
+    }
+    public function logout(Request $request){
+        $request->user()->currentAccessToken()->delete();
+        return response()->json([
+            'message' => 'Sesión cerrada'
+        ]);
+    }
+    public function me(Request $request){
+        $user = User::where('id', $request->user()->id)->with('shop')->first();
+        return $user;
     }
 }

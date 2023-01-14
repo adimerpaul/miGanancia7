@@ -154,7 +154,7 @@ export default defineComponent({
     const slide = ref('slide1')
     const user = ref({})
     const loading = ref(false)
-    const userLogin = ref(false)
+    const userLogin = ref(true)
     const showPassword = ref(false)
     const globalStore = useGlobalStore()
     const lorem = 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo.'
@@ -187,25 +187,40 @@ export default defineComponent({
     return { slide, lorem, slides, user, showPassword, userLogin, globalStore, q, loading }
   },
   methods: {
+    userValidate (text: string, res: any) {
+      this.globalStore.user = res.data.user
+      this.globalStore.shop = res.data.user.shop
+      this.$router.push('/')
+      this.globalStore.isLogged = true
+      api.defaults.headers.common.Authorization = `Bearer ${res.data.token}`
+      localStorage.setItem('tokenMiGan', res.data.token)
+      this.q.notify({
+        message: text,
+        color: 'green-4',
+        textColor: 'white',
+        icon: 'check_circle',
+        position: 'top'
+      })
+    },
     login () {
       this.loading = true
       if (this.userLogin) {
-        // this.$router.push({ name: 'home' })
+        api.post('login', this.user).then((res) => {
+          this.userValidate('Bienvenido', res)
+        }).catch((err) => {
+          this.q.notify({
+            position: 'top',
+            message: err.response.data.message,
+            color: 'negative',
+            icon: 'error'
+          })
+        }).finally(() => {
+          this.loading = false
+        })
       } else {
         api.post('register', this.user).then((res) => {
-          this.globalStore.user = res.data
-          this.$router.push('/')
-          this.globalStore.isLogged = true
-          localStorage.setItem('tokenMiGan', res.data.token)
-          this.q.notify({
-            message: 'Usuario registrado correctamente',
-            color: 'green-4',
-            textColor: 'white',
-            icon: 'check_circle',
-            position: 'top'
-          })
+          this.userValidate('Usuario registrado correctamente', res)
         }).catch((err) => {
-          console.log(err)
           this.q.notify({
             message: err.response.data.message,
             color: 'red-4',
