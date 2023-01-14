@@ -1,6 +1,5 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <q-btn @click="addTodo" label="Open Modal" />
     <example-component
       title="Example component"
       active
@@ -14,8 +13,7 @@
 import { Todo, Meta } from 'components/models'
 import ExampleComponent from 'components/ExampleComponent.vue'
 import { defineComponent, ref } from 'vue'
-import { collection, addDoc } from 'firebase/firestore'
-import { db } from 'src/boot/firebase'
+
 export default defineComponent({
   name: 'IndexPage',
   components: { ExampleComponent },
@@ -46,16 +44,6 @@ export default defineComponent({
       totalCount: 1200
     })
     return { todos, meta }
-  },
-  methods: {
-    async addTodo () {
-      this.$q.loading.show()
-      const docRef = await addDoc(collection(db, 'todos'), {
-        content: 'zzzzz'
-      })
-      console.log('Document written with ID: ', docRef.id)
-      this.$q.loading.hide()
-    }
   }
 })
 </script>
