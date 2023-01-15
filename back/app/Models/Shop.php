@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Shop extends Model
 {
-    use HasFactory;
+    use HasFactory,softDeletes;
     protected $fillable = [
         'avatar',
         'type',
@@ -16,6 +17,8 @@ class Shop extends Model
         'city',
         'phone',
         'email',
-        'document'
+        'document',
+        'user_id',
+        'status'
     ];
 }

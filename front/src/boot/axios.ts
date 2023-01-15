@@ -27,14 +27,16 @@ export default boot(({ app, router }) => {
   if (token) {
     api.defaults.headers.common.Authorization = `Bearer ${token}`
     api.defaults.headers.common['Content-Type'] = 'application/json'
-    api.post('me').then((response) => {
-      useGlobalStore().user = response.data
-      useGlobalStore().shop = response.data.shop
+    api.post('me').then((res) => {
+      // console.log(res.data)
+      useGlobalStore().user = res.data.user
+      useGlobalStore().shops = res.data.shops
+      useGlobalStore().shop = res.data.user.shop
       useGlobalStore().isLogged = true
     }).catch((error) => {
       useGlobalStore().isLogged = false
       localStorage.removeItem('tokenMiGan')
-      useGlobalStore().user = {}
+      useGlobalStore().user = { id: 0 }
       console.log(error)
       router.push('/login')
     })

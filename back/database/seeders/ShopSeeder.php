@@ -23,7 +23,9 @@ class ShopSeeder extends Seeder
             'city' => 'Cidade 1',
             'phone' => '123456789',
             'email' => 'loja@gmail.com',
-            'document' => '123456789'
+            'document' => '123456789',
+            'status' => 'active',
+            'user_id' => 1
         ]);
     }
 }

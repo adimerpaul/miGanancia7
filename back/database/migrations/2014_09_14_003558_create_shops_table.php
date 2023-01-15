@@ -23,6 +23,9 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('document')->nullable();
+            $table->string('status')->default('inactive');
+            $table->foreignId('user_id')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

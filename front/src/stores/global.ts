@@ -3,11 +3,16 @@ import { defineStore } from 'pinia'
 export const useGlobalStore = defineStore('counter', {
   state: () => ({
     counter: 0,
-    user: {},
+    user: {
+      id: 0
+    },
     isLogged: !!localStorage.getItem('tokenMiGan'),
     permissions: [],
     url: import.meta.env.VITE_API_BACK,
-    shop: {},
+    shop: {
+      id: 0
+    },
+    shops: [],
     typeShops: [
       { label: 'Industria o manufactura', value: 'Industria o manufactura', icon: 'o_business' },
       { label: 'Servicios de trasporte', value: 'Servicios de trasporte', icon: 'o_local_shipping' },

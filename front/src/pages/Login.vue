@@ -190,6 +190,7 @@ export default defineComponent({
     userValidate (text: string, res: any) {
       this.globalStore.user = res.data.user
       this.globalStore.shop = res.data.user.shop
+      this.globalStore.shops = res.data.shops
       this.$router.push('/')
       this.globalStore.isLogged = true
       api.defaults.headers.common.Authorization = `Bearer ${res.data.token}`
