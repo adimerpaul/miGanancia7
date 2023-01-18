@@ -46,6 +46,9 @@
               <q-item-label class="text-h5">100</q-item-label>
             </q-item-section>
           </q-item>
+          <q-tooltip>
+            Este es el total de referencias de productos que hay en tu inventario.
+          </q-tooltip>
         </q-card>
       </div>
       <div class="col-12 col-md-6 q-pa-md">
@@ -111,11 +114,13 @@
         </q-card>
       </div>
     </div>
+    <pre>{{globalStore.categoryOptions}}</pre>
   </q-page>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import { useGlobalStore } from 'stores/global'
 
 export default defineComponent({
   name: 'InventoryPage',
@@ -123,9 +128,10 @@ export default defineComponent({
     const productSearch = ref('')
     const qr = ref(false)
     const print = ref(false)
-    const category = ref('')
+    const category = ref(0)
+    const globalStore = useGlobalStore()
     const categoryOption = ref([
-      { label: 'Ver todas las categorias', value: '', id: 0 }
+      { label: 'Ver todas las categorias', value: 0, id: 0 }
     ])
     const order = ref('Productos más vendidos')
     const orderOption = ref([
@@ -134,7 +140,13 @@ export default defineComponent({
       { label: 'Productos más rentables', value: 'Productos más rentables', icon: 'list' },
       { label: 'Últimas unidades disponibles', value: 'Últimas unidades disponibles', icon: 'list' }
     ])
-    return { productSearch, qr, print, categoryOption, category, order, orderOption }
+    return { productSearch, qr, print, categoryOption, category, order, orderOption, globalStore }
+  },
+  // mounted () {},
+  computed: {
+    categoryList () {
+      return this.globalStore.categories
+    }
   }
 })
 </script>

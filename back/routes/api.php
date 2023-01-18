@@ -16,5 +16,6 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('base64/{photo}', [\App\Http\Controllers\UploadController::class,'base64']);
     Route::apiResource('shops', \App\Http\Controllers\ShopController::class);
     Route::apiResource('users', \App\Http\Controllers\UserController::class);
+    Route::apiResource('categories', \App\Http\Controllers\CategoryController::class);
     Route::post('shopStatusActive/{id}', [\App\Http\Controllers\ShopController::class,'shopStatusActive']);
 });

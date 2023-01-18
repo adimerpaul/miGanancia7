@@ -13,6 +13,10 @@ export const useGlobalStore = defineStore('counter', {
       id: 0
     },
     shops: [],
+    category: {
+      id: 0
+    },
+    categories: [],
     typeShops: [
       { label: 'Industria o manufactura', value: 'Industria o manufactura', icon: 'o_business' },
       { label: 'Servicios de trasporte', value: 'Servicios de trasporte', icon: 'o_local_shipping' },
@@ -33,6 +37,11 @@ export const useGlobalStore = defineStore('counter', {
   getters: {
     doubleCount (state) {
       return state.counter * 2
+    },
+    categoryOptions (state) {
+      return state.categories.map((category: any) => {
+        return { label: category.name, value: category.id }
+      })
     }
   },
 

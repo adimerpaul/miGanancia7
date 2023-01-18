@@ -7,64 +7,7 @@
           {{url==='' ? 'Movimientos' : 'Inventario'}}
         </q-toolbar-title>
         <div>
-          <template v-if="url===''">
-            <q-btn-dropdown
-              color="green-7"
-              no-caps
-              icon="add_circle_outline"
-              :label="$q.screen.lt.md ? '' : 'Nueva venta'"
-            >
-              <q-list>
-                <q-item clickable v-close-popup>
-                  <q-item-section avatar>
-                    <q-avatar icon="o_shopping_basket" color="grey-3" text-color="grey" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>Venta de productos</q-item-label>
-                    <q-item-label caption>Registrar una venta seleccionando los productos de tu inventario</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item clickable v-close-popup>
-                  <q-item-section avatar>
-                    <q-avatar icon="o_payment" color="grey-3" text-color="grey" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>Venta libre</q-item-label>
-                    <q-item-label caption>Registrar un ingreso sin seleccionar productos de tu inventario</q-item-label>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-btn-dropdown>
-            <q-btn color="red-9" class="q-ml-xs" no-caps icon="remove_circle_outline" :label="$q.screen.lt.md ? '' : 'Nuevo gasto'" />
-          </template>
-          <template v-if="url==='inventory'">
-            <q-btn outline no-caps :label="$q.screen.lt.md ? 'Cate' : 'Crear categoria'" />
-            <q-btn-dropdown
-              color="yellow-7"
-              no-caps
-              class="q-ml-xs text-black"
-              :label="$q.screen.lt.md ? 'Produc' : 'Agregar productos'"
-            >
-              <q-list>
-                <q-item clickable v-close-popup>
-                  <q-item-section avatar>
-                    <q-avatar icon="o_sell" text-color="grey" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>Crear producto manualmente</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item clickable v-close-popup>
-                  <q-item-section avatar>
-                    <q-avatar icon="attach_file" text-color="green" />
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>Subir archivo desde excel</q-item-label>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-btn-dropdown>
-          </template>
+          <button-component></button-component>
         </div>
       </q-toolbar>
     </q-header>
@@ -122,10 +65,12 @@ import { defineComponent, ref } from 'vue'
 import { useGlobalStore } from 'stores/global'
 import { useQuasar } from 'quasar'
 import ShopChangeComponent from 'components/ShopChangeComponent.vue'
+import ButtonComponent from 'components/ButtonComponent.vue'
 export default defineComponent({
   name: 'MainLayout',
   components: {
-    ShopChangeComponent
+    ShopChangeComponent,
+    ButtonComponent
   },
   setup () {
     const shopDialog = ref(false)
@@ -144,12 +89,6 @@ export default defineComponent({
     const options = [
       { color: 'text-black', label: 'Movimientos', link: '/', icon: 'o_account_balance_wallet' },
       { color: 'text-black', label: 'Inventario', link: '/inventory', icon: 'o_store' }
-      // { color: 'text-black', label: 'Ventas', link: '/sales', icon: 'o_shopping_cart' },
-      // { color: 'text-black', label: 'Compras', link: '/purchases', icon: 'o_shopping_basket' },
-      // { color: 'text-black', label: 'Cuentas por cobrar', link: '/accountsreceivable', icon: 'o_account_balance' },
-      // { color: 'text-black', label: 'Cuentas por pagar', link: '/accountspayable', icon: 'o_account_balance' },
-      // { color: 'text-black', label: 'Reportes', link: '/reports', icon: 'o_assessment' },
-      // { color: 'text-black', label: 'Configuración', link: '/configuration', icon: 'o_settings' }
     ]
     const contacts = [
       { color: 'text-black', label: 'Clientes', link: '/clients', icon: 'o_people' },

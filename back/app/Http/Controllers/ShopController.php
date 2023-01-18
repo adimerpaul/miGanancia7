@@ -10,7 +10,11 @@ use Illuminate\Http\Request;
 
 class ShopController extends Controller{
     public function index(Request $request){ return Shop::where('user_id',$request->user()->id)->get(); }
-    public function show(Shop $shop){ return $shop; }
+    public function show(Shop $shop,Request $request){
+        $shop = Shop::where('id',$shop->id)->first();
+        $shops = Shop::where('user_id',$request->user()->id)->get();
+        return response()->json(['shop'=>$shop,'shops'=>$shops]);
+    }
     public function store(Request $request){
         $request['avatar']=$request->user()->shopAvatar;
         if ($request['avatar']==null) {

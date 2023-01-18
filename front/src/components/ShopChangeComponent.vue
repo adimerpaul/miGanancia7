@@ -10,7 +10,7 @@
         <q-item-section>
           <q-item-label lines="1" class="text-subtitle2 text-grey">{{globalStore.shop.name}}</q-item-label>
           <q-item-label caption lines="2">
-            <span class="text-weight-bold">{{globalStore.shop.address}}</span>
+            <span class="text-weight-bold">{{globalStore.shop.type}}</span>
           </q-item-label>
         </q-item-section>
         <q-item-section side v-if="globalStore.shops.length>1">
@@ -25,7 +25,7 @@
                   </q-item-section>
                   <q-item-section>
                     <q-item-label>{{ n.name }}</q-item-label>
-                    <q-item-label caption lines="1">{{ n.address }}</q-item-label>
+                    <q-item-label caption lines="1">{{ n.type }}</q-item-label>
                   </q-item-section>
                   <q-item-section side>
                     <q-icon name="check_circle_outline" color="green" v-if="n.id===globalStore.shop.id"/>
@@ -99,7 +99,7 @@
                 </div>
               </template>
             </q-select>
-            <q-input filled v-model="shop.name" label="Nombre del negocio" :rules="[val => val.length > 0 || 'El nombre del negocio es obligatorio']" >
+            <q-input filled v-model="shop.name" label="Nombre del negocio" :rules="[val => val.length > 0 || 'El nombre del negocio es requerido']" >
               <template v-slot:label>
                 <div class="row items-center all-pointer-events">
                   Nombre del negocio <span class="text-red">*</span>
@@ -124,7 +124,7 @@
 import { defineComponent, ref } from 'vue'
 import { useGlobalStore } from 'stores/global'
 import { useQuasar } from 'quasar'
-
+import { Meta } from 'components/models'
 export default defineComponent({
   name: 'ShopChangeComponent',
   setup (/* props */) {
@@ -170,7 +170,9 @@ export default defineComponent({
     shopOpen (status: string) {
       if (status === 'create') {
         this.$api.put(`users/${this.globalStore.user.id}`, { shopAvatar: '' })
-        this.shop = {}
+        this.shop = {
+          name: ''
+        }
         this.shopCreate = true
       } else {
         this.shop = this.globalStore.shop
@@ -201,7 +203,8 @@ export default defineComponent({
     finishFn () {
       if (!this.shopCreate) {
         this.$api.get(`shops/${this.globalStore.shop.id}`).then((response) => {
-          this.globalStore.shop = response.data
+          this.globalStore.shop = response.data.shop
+          this.globalStore.shops = response.data.shops
         })
       }
     }
