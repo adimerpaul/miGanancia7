@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('visible')->default('yes');
             $table->foreignId('shop_id')->nullable()->constrained('shops');
             $table->timestamps();
         });

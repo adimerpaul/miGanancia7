@@ -39,12 +39,13 @@ export const useGlobalStore = defineStore('counter', {
       return state.counter * 2
     },
     categoryOptions (state) {
-      return state.categories.map((category: any) => {
-        return { label: category.name, value: category.id }
+      const options = [{ label: 'Ver todas las categorias', value: 0 }]
+      state.categories.forEach((category: any) => {
+        options.push({ label: category.name, value: category.id })
       })
+      return options
     }
   },
-
   actions: {
     increment () {
       this.counter++

@@ -124,7 +124,6 @@
 import { defineComponent, ref } from 'vue'
 import { useGlobalStore } from 'stores/global'
 import { useQuasar } from 'quasar'
-import { Meta } from 'components/models'
 export default defineComponent({
   name: 'ShopChangeComponent',
   setup (/* props */) {

@@ -5,7 +5,6 @@ export interface Todo {
 
 export interface Meta {
   totalCount: number
-  name: string
 }
 
 export interface Shop {

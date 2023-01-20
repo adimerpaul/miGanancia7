@@ -59,35 +59,19 @@
     </q-btn-dropdown>
   </template>
   <q-dialog v-model="categoryDialog" position="right" full-height :maximized="true">
-    <q-card style="width: 500px; max-width: 80vw;">
-      <q-card-actions class="row items-center text-h6">
-        {{categoryCreate ? 'Crear categoria' : 'Editar categoria'}}
-        <q-space />
-        <q-btn flat dense round icon="highlight_off" @click="categoryDialog = false" />
-      </q-card-actions>
-      <q-card-section>
-        <q-form @submit.prevent="categorySubmit">
-          <q-input filled v-model="category.name" label="Nombre de la categoria" :rules="[val => val.length > 0 || 'El nombre de la categoria es obligatorio']">
-            <template v-slot:label>
-              <div class="row items-center all-pointer-events">
-                Nombre del negocio <span class="text-red">*</span>
-              </div>
-            </template>
-          </q-input>
-<!--          <q-input filled v-model="shop.address" label="Dirección del negocio" hint="" />-->
-          <q-btn :loading="loading" color="yellow-7" :label="categoryCreate?'Crear categoria':'Guardar cambios'"  type="submit" class="full-width text-black" no-caps  />
-<!--          <q-btn :loading="loading" @click="negocioDelete" v-if="!shopCreate" flat color="red" label="Eliminar negocio" icon="o_delete" class="full-width text-black q-mt-md" no-caps  />-->
-        </q-form>
-      </q-card-section>
-    </q-card>
+  <CategoryCreate :categoryCreate="categoryCreate" @close="closeDialog" :category="category" />
   </q-dialog>
 </div>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useGlobalStore } from 'stores/global'
+import CategoryCreate from './CategoryCreate.vue'
 export default defineComponent({
   name: 'ButtonComponent',
+  components: {
+    CategoryCreate
+  },
   setup () {
     const categoryDialog = ref(false)
     const categoryCreate = ref(true)
@@ -100,43 +84,15 @@ export default defineComponent({
     return { categoryDialog, categoryCreate, category, loading, globalStore }
   },
   methods: {
+    closeDialog () {
+      this.categoryDialog = false
+    },
     categoryClick () {
       this.categoryDialog = true
       this.categoryCreate = true
       this.category = {
         name: '',
         shop_id: 0
-      }
-    },
-    categorySubmit () {
-      if (this.categoryCreate) {
-        this.loading = true
-        this.category.shop_id = this.globalStore.shop.id
-        this.$api.post('categories', this.category).then((response) => {
-          this.loading = false
-          this.categoryDialog = false
-          this.globalStore.categories = response.data
-          this.$q.notify({
-            message: 'Categoria creada',
-            color: 'green-4',
-            textColor: 'white',
-            icon: 'check_circle'
-          })
-        }).catch((error) => {
-          this.loading = false
-          this.$q.notify({
-            message: error.response.data.message,
-            color: 'red-4',
-            textColor: 'white',
-            icon: 'error'
-          })
-        })
-      } else {
-        this.loading = true
-        setTimeout(() => {
-          this.loading = false
-          this.categoryDialog = false
-        }, 2000)
       }
     }
   },
